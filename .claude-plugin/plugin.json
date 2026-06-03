@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "excalibur-plugin",
+  "version": "0.1.0",
+  "description": "Starter plugin com command, skill, agent, hook e MCP server. Substitua os placeholders com sua lógica.",
+  "author": {
+    "name": "Luis",
+    "email": "luis@geovendas.com"
+  },
+  "license": "MIT",
+  "keywords": ["starter", "scaffold", "excalibur"]
+}

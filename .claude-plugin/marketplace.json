@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "excalibur-marketplace",
+  "description": "Marketplace do excalibur-plugin. O repo serve como plugin e marketplace ao mesmo tempo.",
+  "owner": {
+    "name": "Luis",
+    "email": "luis@geovendas.com"
+  },
+  "plugins": [
+    {
+      "name": "excalibur-plugin",
+      "description": "Starter plugin com command, skill, agent, hook e MCP server.",
+      "source": "./"
+    }
+  ]
+}
