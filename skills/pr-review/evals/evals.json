@@ -1,0 +1,39 @@
+{
+  "skill_name": "pr-review",
+  "evals": [
+    {
+      "id": 0,
+      "name": "regua-canal-small",
+      "prompt": "Revise esta PR: https://github.com/tecnologia-ibtech/pedidos/pull/5031",
+      "expected_output": "Relatório de revisão em PT com Resumo Geral + Comentários de Review (Título/Severidade/Problema/Impacto/Sugestão/Exemplo), ancorado em arquivo:linha reais. PR pequena (4 arquivos, régua de canal). Deve consultar CLAUDE.md do projeto, avaliar impacto/regressão, e NÃO inventar problemas se não houver.",
+      "files": [],
+      "assertions": [
+        "A saída tem Resumo Geral e Comentários de Review.",
+        "Cada comentário usa Título / Severidade / Problema / Impacto / Sugestão (Exemplo quando aplicável).",
+        "Severidade ∈ {Baixo, Médio, Alto, Crítico}.",
+        "Consultou CLAUDE.md / .claude/docs do projeto.",
+        "Achados ancorados em arquivo:linha reais do diff.",
+        "Não inventa volume; declara explicitamente se não há risco relevante.",
+        "Saída em português."
+      ]
+    },
+    {
+      "id": 1,
+      "name": "frete-formacao-preco-large",
+      "prompt": "Revise esta PR: https://github.com/tecnologia-ibtech/pedidos/pull/4932",
+      "expected_output": "Relatório de revisão em PT. PR grande (36 arquivos, +1134, política de frete na formação de preço). Mexe em utils compartilhados (pedidoUtils, utils) e factories de customização por cliente (*CustomFactory). Deve mapear consumidores de métodos alterados, avaliar impacto em outros clientes/tenants via camada CustomFactory, e seguir o formato estruturado.",
+      "files": [],
+      "assertions": [
+        "A saída tem Resumo Geral e Comentários de Review.",
+        "Cada comentário usa Título / Severidade / Problema / Impacto / Sugestão (Exemplo quando aplicável).",
+        "Severidade ∈ {Baixo, Médio, Alto, Crítico}.",
+        "Consultou CLAUDE.md / .claude/docs do projeto.",
+        "Achados ancorados em arquivo:linha reais do diff.",
+        "Mapeia consumidores de ao menos um método compartilhado alterado.",
+        "Aborda impacto em outros clientes/tenants (camada *CustomFactory) para mudanças compartilhadas.",
+        "Não inventa volume; reconhece pontos positivos.",
+        "Saída em português."
+      ]
+    }
+  ]
+}
