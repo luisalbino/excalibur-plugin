@@ -1,5 +1,11 @@
 node_modules/
 skills/*-workspace/
+# Skill eval suites are dev-only benchmarks (skill-creator). Reference private
+# repos and add no value for plugin users — keep locally, don't distribute.
+skills/*/evals/
+# Project-specific reference guides (e.g. coffeescript-impact.md) are tied to one
+# codebase/client. SKILL.md consults references/ only if present — keep locally.
+skills/*/references/
 .env
 .env.local
 *.log

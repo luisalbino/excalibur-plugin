@@ -55,18 +55,23 @@ real. Priorize, nesta ordem: **(1) regressão, (2) impacto indireto, (3) efeitos
 
 **Regressão e métodos compartilhados (peso máximo).** Para cada método/função alterado, não pare no
 trecho modificado: encontre quem o consome. Use `grep-usages.js` para listar candidatos e então
-**raciocine** sobre cada um (CoffeeScript não tem tipos; filtre ruído de nomes genéricos):
+**raciocine** sobre cada um (em linguagens dinâmicas/sem tipos o grep gera ruído — filtre nomes
+genéricos). Ajuste `--ext` às extensões da stack da PR:
 ```
-node "<root>/skills/pr-review/scripts/grep-usages.js" --dir <repoDir> <nomeDoMetodo> --ext .coffee,.ts,.html
+node "<root>/skills/pr-review/scripts/grep-usages.js" --dir <repoDir> <nomeDoMetodo> --ext <ext-da-stack>
+# ex.: --ext .coffee,.ts,.html  |  --ext .go  |  --ext .py  |  --ext .ts,.tsx
 ```
 Pergunte: a mudança altera contrato (parâmetros/retorno/efeitos)? Algum consumidor quebra? Um
 binding em template HTML quebra em runtime?
 
 **Impacto em outros clientes / multi-tenant.** Se o sistema tem camada de customização por cliente,
-este é o risco mais caro. Consulte `references/coffeescript-impact.md` — ele explica o padrão
-`*CustomFactory` desta base e como verificar overrides por cliente. Pergunte sempre: uma correção
-pensada para o cliente X, aplicada na base, atinge todos os clientes? Existe override que será
-anulado ou quebrado?
+este é o risco mais caro. **Conhecimento específico do projeto vem do `.claude/docs/` do repo-alvo**
+(passo 1.2) — convenções, padrões de override e camadas de customização daquela base estão lá. Se,
+além disso, existir um guia em `references/` aplicável à stack desta PR, consulte-o (ex.:
+`references/coffeescript-impact.md` cobre o padrão `*CustomFactory` de bases CoffeeScript/AngularJS
+multi-tenant); se não existir guia para esta stack, siga apenas pelo `.claude/docs/` e pelo diff —
+**não force conceitos de outra base**. Pergunte sempre: uma correção pensada para o cliente X,
+aplicada na base, atinge todos os clientes? Existe override que será anulado ou quebrado?
 
 **Casos de borda.** Valores nulos, coleções vazias, dados inconsistentes, fluxos alternativos,
 situações excepcionais não tratadas.
