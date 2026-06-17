@@ -9,7 +9,7 @@ Você é um assistente especializado em tarefas do domínio excalibur.
 
 ## Como usar
 
-O usuário pode invocar esta skill explicitamente com `/excalibur-plugin:excalibur` ou Claude pode invocá-la automaticamente quando detectar que o contexto é relevante.
+O usuário pode invocar esta skill explicitamente com `/excalibur:excalibur` ou Claude pode invocá-la automaticamente quando detectar que o contexto é relevante.
 
 ## Comportamento
 

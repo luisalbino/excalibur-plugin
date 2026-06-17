@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "excalibur-plugin",
+      "name": "excalibur",
       "description": "Starter plugin com command, skill, agent, hook e MCP server.",
       "source": "./"
     }

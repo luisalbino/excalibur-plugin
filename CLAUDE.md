@@ -14,11 +14,11 @@ The repo root (`./`) is referenced by `.claude-plugin/marketplace.json` as the p
 
 ## How components wire together
 
-Every component is namespaced under the plugin name `excalibur-plugin`:
+Every component is namespaced under the plugin name `excalibur`:
 
-- **Command** — `commands/hello.md`. Markdown with a `description` frontmatter; body is a natural-language instruction. `$ARGUMENTS` interpolates user input. Invoked as `/excalibur-plugin:hello [args]`.
+- **Command** — `commands/pr-review.md`. Markdown with a `description` frontmatter; body is a natural-language instruction that invokes the `pr-review` skill. `$ARGUMENTS` interpolates user input (PR links). Invoked as `/excalibur:pr-review [links]`.
 - **Skill** — `skills/excalibur/SKILL.md`. The `name` frontmatter overrides the folder name for invocation; `description` drives auto-invocation (more specific = better). Reference `.md` files placed in the same folder can be loaded by the skill.
-- **Agent** — `agents/excalibur-helper.md`. Frontmatter sets `model` (`haiku`/`sonnet`/`opus`), `tools` (least privilege), and optional `maxTurns`. Invoked via the Agent tool with `subagent_type: excalibur-plugin:excalibur-helper`.
+- **Agent** — `agents/excalibur-helper.md`. Frontmatter sets `model` (`haiku`/`sonnet`/`opus`), `tools` (least privilege), and optional `maxTurns`. Invoked via the Agent tool with `subagent_type: excalibur:excalibur-helper`.
 - **Hook** — `hooks/hooks.json` registers a `SessionStart` hook that runs `scripts/session-start.js` via Node. The script path uses `${CLAUDE_PLUGIN_ROOT}`. The script reads env vars (`CLAUDE_PLUGIN_ROOT`, `CLAUDE_PLUGIN_DATA`, `CLAUDE_PROJECT_DIR`); **stdout is injected as system context for Claude, stderr is a terminal-only warning, exit code 1 signals failure.** Hook scripts must be cross-platform Node (this repo targets Windows + others).
 - **MCP server** — `.mcp.json`. Disabled by default (`"disabled": true`). Uses `${user_config.KEY}` for user-configured values and `${ENV_VAR}` for environment variables.
 
@@ -30,7 +30,7 @@ There is no build/lint/test tooling. To test changes, load the plugin directly f
 claude --plugin-dir /caminho/para/excalibur-plugin
 ```
 
-Then inside the session run `/excalibur-plugin:hello` to confirm the plugin loaded.
+Then inside the session run `/excalibur:pr-review` to confirm the plugin loaded.
 
 ## Releasing
 

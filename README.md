@@ -6,9 +6,10 @@ Plugin Claude Code com exemplos de todos os tipos de componente: slash command, 
 
 | Tipo | Arquivo | Invocação |
 |------|---------|-----------|
-| Command | `commands/hello.md` | `/excalibur-plugin:hello [args]` |
-| Skill | `skills/excalibur/SKILL.md` | `/excalibur-plugin:excalibur` ou auto |
-| Agent | `agents/excalibur-helper.md` | Via `Agent` tool com `subagent_type: excalibur-plugin:excalibur-helper` |
+| Command | `commands/pr-review.md` | `/excalibur:pr-review [links]` |
+| Skill | `skills/pr-review/SKILL.md` | `/excalibur:pr-review` ou auto |
+| Skill | `skills/excalibur/SKILL.md` | `/excalibur:excalibur` ou auto |
+| Agent | `agents/excalibur-helper.md` | Via `Agent` tool com `subagent_type: excalibur:excalibur-helper` |
 | Hook | `hooks/hooks.json` + `scripts/session-start.js` | Automático no `SessionStart` |
 | MCP server | `.mcp.json` | Ativar: remover `"disabled": true` e configurar o pacote |
 
@@ -18,7 +19,7 @@ Substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub:
 
 ```
 /plugin marketplace add SEU-USUARIO/excalibur-plugin
-/plugin install excalibur-plugin@excalibur-marketplace
+/plugin install excalibur@excalibur-marketplace
 ```
 
 ## Desenvolvimento local
@@ -29,7 +30,7 @@ Teste sem publicar, passando o diretório diretamente:
 claude --plugin-dir /caminho/para/excalibur-plugin
 ```
 
-Dentro da sessão, use `/excalibur-plugin:hello` para confirmar que o plugin carregou.
+Dentro da sessão, use `/excalibur:pr-review` para confirmar que o plugin carregou.
 
 ## Estrutura
 
@@ -39,8 +40,10 @@ excalibur-plugin/
 │   ├── plugin.json          # Manifest do plugin (name, version, description, author)
 │   └── marketplace.json     # Catalog do marketplace — aponta pra "./" (este repo)
 ├── commands/
-│   └── hello.md             # Slash command: /excalibur-plugin:hello
+│   └── pr-review.md         # Slash command: /excalibur:pr-review
 ├── skills/
+│   ├── pr-review/
+│   │   └── SKILL.md         # Skill de revisão de PR (+ scripts/)
 │   └── excalibur/
 │       └── SKILL.md         # Skill auto-invocável
 ├── agents/
@@ -54,9 +57,9 @@ excalibur-plugin/
 
 ## Personalizar cada componente
 
-### Command (`commands/hello.md`)
+### Command (`commands/pr-review.md`)
 - Frontmatter `description`: Claude usa para auto-sugestão.
-- Corpo: instrução em linguagem natural + `$ARGUMENTS` para input do usuário.
+- Corpo: instrução em linguagem natural que invoca a skill `pr-review` + `$ARGUMENTS` para os links da PR.
 
 ### Skill (`skills/excalibur/SKILL.md`)
 - Frontmatter `description`: **mais específica = melhor decisão de invocação automática**.
