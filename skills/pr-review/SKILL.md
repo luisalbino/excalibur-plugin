@@ -26,6 +26,10 @@ então não dependem do PATH do shell.
 | `scripts/post-review.js` | Posta UMA review com comentários inline batchados. Dry-run por padrão; só posta com `--post`. |
 | `scripts/cleanup.js` | Remove os diretórios temporários ao final. |
 
+> **Squad de review.** A análise é feita por uma squad de 4 lentes especialistas
+> (`excalibur:pr-squad-*`), disparadas em paralelo. O contrato compartilhado (mapa de blocos, formato
+> de saída, placar) está em `squad-protocol.md` (mesma pasta) — leia-o antes de orquestrar.
+
 > O caminho da pasta de scripts vem da variável `${CLAUDE_PLUGIN_ROOT}` (raiz do plugin). Use
 > `node "<plugin-root>/skills/pr-review/scripts/<script>.js"`. Se não souber a raiz, os scripts
 > também funcionam pelo caminho relativo a este `SKILL.md`.
@@ -47,52 +51,48 @@ então não dependem do PATH do shell.
 3. Leia o diff de cada PR (`diffPath` no manifest). Trabalhe a partir do diff; só abra arquivos
    completos do clone quando precisar validar um impacto ou entender um consumidor.
 
-### 2. Análise
+### 2. Squad de análise (fan-out por lente)
 
-Avalie as dimensões abaixo. **Não** busque problemas artificialmente — só reporte o que traz valor
-real. Priorize, nesta ordem: **(1) regressão, (2) impacto indireto, (3) efeitos em outros clientes,
-(4) comportamentos compartilhados, (5) sustentabilidade/manutenção, (6) conformidade com o CLAUDE.md.**
+A análise não é feita num cérebro só. Você (orquestrador) fatia as mudanças em blocos e dispara 4
+lentes especialistas em paralelo; cada uma avalia a PR inteira sob **uma** dimensão e devolve achados
+marcados por bloco. Leia `squad-protocol.md` (mesma pasta) — ele define os formatos exatos.
 
-**Regressão e métodos compartilhados (peso máximo).** Para cada método/função alterado, não pare no
-trecho modificado: encontre quem o consome. Use `grep-usages.js` para listar candidatos e então
-**raciocine** sobre cada um (em linguagens dinâmicas/sem tipos o grep gera ruído — filtre nomes
-genéricos). Ajuste `--ext` às extensões da stack da PR:
-```
-node "<root>/skills/pr-review/scripts/grep-usages.js" --dir <repoDir> <nomeDoMetodo> --ext <ext-da-stack>
-# ex.: --ext .coffee,.ts,.html  |  --ext .go  |  --ext .py  |  --ext .ts,.tsx
-```
-Pergunte: a mudança altera contrato (parâmetros/retorno/efeitos)? Algum consumidor quebra? Um
-binding em template HTML quebra em runtime?
+**2.1. Splitter lógico.** Com o diff e o `CLAUDE.md` em mãos, agrupe as mudanças em **blocos lógicos
+semânticos** — uma unidade de sentido (ex.: "novo cálculo de desconto" = método no backend + binding no
+frontend), não por arquivo nem por hunk. Atribua IDs estáveis `B1..Bn` com âncoras `arquivo:linha`
+reais, no formato do protocolo (§1).
 
-**Impacto em outros clientes / multi-tenant.** Se o sistema tem camada de customização por cliente,
-este é o risco mais caro. **Conhecimento específico do projeto vem do `.claude/docs/` do repo-alvo**
-(passo 1.2) — convenções, padrões de override e camadas de customização daquela base estão lá. Se,
-além disso, existir um guia em `references/` aplicável à stack desta PR, consulte-o (ex.:
-`references/coffeescript-impact.md` cobre o padrão `*CustomFactory` de bases CoffeeScript/AngularJS
-multi-tenant); se não existir guia para esta stack, siga apenas pelo `.claude/docs/` e pelo diff —
-**não force conceitos de outra base**. Pergunte sempre: uma correção pensada para o cliente X,
-aplicada na base, atinge todos os clientes? Existe override que será anulado ou quebrado?
+**2.2. Fan-out paralelo.** Numa **única mensagem**, abra as 4 lentes via Agent tool (rodam em paralelo).
+Passe a cada uma: o **mapa de blocos**, o `diffPath`, o `repoDir` e as regras do `CLAUDE.md`. Cada lente
+lê o diff sozinha e retorna no formato do protocolo (§2).
 
-**Casos de borda.** Valores nulos, coleções vazias, dados inconsistentes, fluxos alternativos,
-situações excepcionais não tratadas.
+| Lente (`subagent_type`) | Dimensão coberta |
+|-------------------------|------------------|
+| `excalibur:pr-squad-regressao` | Regressão / impacto na master: métodos compartilhados, contratos, consumidores (usa `grep-usages.js`). |
+| `excalibur:pr-squad-tenant` | Multi-tenant: base compartilhada × customização por cliente, `*CustomFactory`, overrides anulados. |
+| `excalibur:pr-squad-usuario` | Usuário final: comportamento visível, UX, fluxo, dados exibidos. |
+| `excalibur:pr-squad-arquitetura` | Arquitetura/coesão/código morto + casos de borda + infra (CI/Docker/pipeline). |
 
-**Arquitetura.** Organização, coesão, responsabilidade, reutilização. Existe forma mais simples e
-segura? Há método excessivamente grande/complexo que pede extração? Há lógica duplicada que pede
-centralização?
+Nº de lentes é **fixo (4)**, independente do tamanho da PR — o custo não escala com o número de blocos.
 
-**Arquivos de infra.** Mudanças em CI/CD, Docker, Kubernetes, pipelines, scripts, build, deploy —
-avalie impacto em outros ambientes/equipes.
+**2.3. Agregação → placar por bloco.** Consolide os 4 veredictos por bloco (protocolo §3):
+- **Criticidade** = maior severidade entre todos os achados do bloco.
+- **Impacto na master** ← lente regressão · **Impacto cliente/tenant** ← lente tenant ·
+  **Impacto no usuário** ← lente usuário · **Qualidade/arquitetura** ← lente arquitetura.
 
-**Comportamentos compartilhados entre projetos.** Com PRs relacionadas em repos diferentes, valide
-contratos e compatibilidade backend↔frontend; aponte inconsistências.
-
-**Código morto e arquivos indevidos.** Campos/métodos/propriedades sem uso após a mudança; e
-arquivos que não deveriam estar versionados (node_modules, artefatos de build, logs, arquivos
-gerados, **credenciais/segredos**, config local). Qualquer ocorrência deve ser reportada.
+Princípios mantidos: nenhum achado sem âncora `arquivo:linha`; nada inventado para gerar volume; se uma
+dimensão está limpa, a lente declara isso explicitamente.
 
 ### 3. Resultado
 
-Produza a revisão em **duas partes**, em português.
+Produza a revisão em **três partes**, em português: Placar por bloco, Resumo Geral e Comentários de
+Review.
+
+#### Placar por bloco
+Uma entrada por bloco `B1..Bn`, no formato do protocolo (§3): título semântico, arquivos envolvidos e
+a tabela de eixos (Criticidade, Impacto na master, Impacto cliente/tenant, Impacto no usuário,
+Qualidade/arquitetura). É a visão de relance de onde está o risco. Lente sem achado no bloco → "Sem
+impacto" / "OK".
 
 #### Resumo Geral
 - **Escopo analisado** — PRs, repos, nº de arquivos.
