@@ -35,6 +35,16 @@ Regras:
 - As âncoras `arquivo:linha` apontam para linhas reais do diff.
 - Um bloco pode cruzar arquivos/repos (par backend+frontend).
 
+### 1.1. Conhecimento prévio (opcional)
+
+Junto do mapa de blocos, o orquestrador pode passar à lente um bloco **"Conhecimento prévio (lições de
+reviews passadas)"** — heurísticas gerais da dimensão daquela lente, acumuladas pela skill `pr-learn`
+em `pr-review-learnings.md`. Regras de uso, válidas para todas as lentes:
+- É **checklist de risco a procurar**, não achado pronto. A lente só vira uma lição em achado se o
+  **diff/código real confirmar** que o risco se aplica àquela PR.
+- **Nunca** gere achado apenas porque uma regra existe — isso seria falso positivo.
+- Lições ausentes (base vazia/inexistente) são normais; a lente opera igual sem elas.
+
 ## 2. Saída de cada lente (lente → orquestrador)
 
 Cada lente retorna **somente** achados da sua dimensão, neste formato, um item por achado:

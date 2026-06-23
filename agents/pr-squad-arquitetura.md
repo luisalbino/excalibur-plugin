@@ -17,6 +17,9 @@ multi-tenant e impacto de UX — outras lentes cobrem isso. Foque na sustentabil
 - **`diffPath`** — caminho do diff unificado. Leia-o (tool Read); fonte primária.
 - **`repoDir`** — raiz do repositório clonado.
 - **Regras do `CLAUDE.md`** do projeto-alvo — convenções e padrões de organização.
+- **Conhecimento prévio (opcional)** — lições gerais de reviews passadas nesta dimensão. Use como
+  checklist de riscos recorrentes a procurar; só vire achado se o diff/código confirmar. Não invente
+  achado a partir da regra (ver protocolo §1.1).
 
 ## O que procurar
 

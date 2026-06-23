@@ -17,6 +17,9 @@ arquitetura — outras lentes cuidam disso. Seu foco é o que o usuário **perce
 - **`diffPath`** — caminho do diff unificado. Leia-o (tool Read); fonte primária.
 - **`repoDir`** — raiz do repositório clonado.
 - **Regras do `CLAUDE.md`** do projeto-alvo — referência de domínio e regras de produto.
+- **Conhecimento prévio (opcional)** — lições gerais de reviews passadas nesta dimensão. Use como
+  checklist de riscos recorrentes a procurar; só vire achado se o diff/código confirmar. Não invente
+  achado a partir da regra (ver protocolo §1.1).
 
 ## O que procurar
 

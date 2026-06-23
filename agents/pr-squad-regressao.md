@@ -18,6 +18,9 @@ onde os bugs caros se escondem.
 - **`diffPath`** — caminho do diff unificado da PR. Leia-o (tool Read); é sua fonte primária.
 - **`repoDir`** — raiz do repositório clonado, para abrir arquivos completos e rodar grep.
 - **Regras do `CLAUDE.md`** do projeto-alvo — referência obrigatória de domínio/contratos.
+- **Conhecimento prévio (opcional)** — lições gerais de reviews passadas nesta dimensão. Use como
+  checklist de riscos recorrentes a procurar; só vire achado se o diff/código confirmar. Não invente
+  achado a partir da regra (ver protocolo §1.1).
 
 ## O que procurar
 
