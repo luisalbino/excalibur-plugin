@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devolutiva Feedback 360 — {{NOME}}</title>
+<style>
+  :root{ --ink:#1d2433; --muted:#5b6677; --line:#e4e8ef; --bg:#f6f8fb; --card:#fff;
+    --brand:#2f6f8f; --brand-soft:#eaf3f7; --green:#2f7d52; --green-soft:#eaf5ee;
+    --amber:#9a6a16; --amber-soft:#fbf2e1; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); line-height:1.55;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:880px; margin:0 auto; padding:40px 24px 64px}
+  header.top{background:linear-gradient(135deg,#2f6f8f,#3b8aa8); color:#fff; border-radius:16px;
+    padding:32px 34px; margin-bottom:28px; box-shadow:0 6px 24px rgba(47,111,143,.18);}
+  header.top .tag{font-size:13px; letter-spacing:.08em; text-transform:uppercase; opacity:.85}
+  header.top h1{margin:6px 0 8px; font-size:28px; font-weight:700}
+  header.top p{margin:0; opacity:.92; font-size:15px; max-width:62ch}
+  .intro{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; margin-bottom:28px; color:var(--muted); font-size:15px;}
+  h2.section{font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--brand); margin:34px 0 14px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:22px 24px; margin-bottom:16px; box-shadow:0 1px 2px rgba(20,30,50,.03);}
+  .card h3{margin:0 0 14px; font-size:18px}
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media(max-width:640px){ .twocol{grid-template-columns:1fr} }
+  .box{border-radius:10px; padding:14px 16px; font-size:14.5px}
+  .box .lbl{font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; margin-bottom:6px}
+  .self{background:#f3f5f9; border:1px solid #e4e8ef} .self .lbl{color:var(--muted)}
+  .team{background:var(--brand-soft); border:1px solid #d4e6ee} .team .lbl{color:var(--brand)}
+  .reinforce{background:var(--green-soft); border:1px solid #cfe6d8; border-radius:14px; padding:22px 24px; margin-bottom:16px}
+  .reinforce h3{margin:0 0 10px; font-size:18px; color:var(--green)}
+  .reinforce ul,.grow ul{margin:0; padding-left:20px} .reinforce li,.grow li{margin-bottom:8px}
+  .grow{background:var(--amber-soft); border:1px solid #efe0c2; border-radius:14px; padding:22px 24px; margin-bottom:16px}
+  .grow h3{margin:0 0 10px; font-size:18px; color:var(--amber)}
+  .takeaway{background:#1d2433; color:#eef2f7; border-radius:14px; padding:26px 28px; margin-top:24px}
+  .takeaway h3{margin:0 0 10px; font-size:18px; color:#fff} .takeaway p{margin:0; opacity:.92}
+  .pill{display:inline-block; background:#3b8aa8; color:#fff; font-size:12px; font-weight:600; padding:3px 10px; border-radius:999px; margin-bottom:14px}
+  .scores{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:10px}
+  @media(max-width:640px){ .scores{grid-template-columns:repeat(2,1fr)} }
+  .score{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 14px; text-align:center}
+  .score .num{font-size:26px; font-weight:700; color:var(--brand); line-height:1}
+  .score .den{font-size:13px; color:#9aa4b2; font-weight:600; margin-left:2px}
+  .score .nm{font-size:12px; color:var(--muted); margin:8px 0 10px; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  .score .bar{height:6px; background:#eef1f6; border-radius:99px; overflow:hidden}
+  .score .bar span{display:block; height:100%; background:linear-gradient(90deg,#3b8aa8,#2f6f8f); border-radius:99px}
+  .score.geral .num{color:var(--green)} .score.geral .bar span{background:linear-gradient(90deg,#3fae74,#2f7d52)}
+  .scorenote{font-size:12.5px; color:#9aa4b2; margin:0 0 8px}
+  .commit{background:#fff; border:1px dashed #c4cdd9; border-radius:14px; padding:24px; margin-top:16px}
+  .commit h3{margin:0 0 6px; font-size:18px; color:var(--brand)}
+  .commit p.sub{margin:0 0 16px; color:var(--muted); font-size:14.5px}
+  .commit .field{margin-bottom:16px}
+  .commit label{display:block; font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px}
+  .commit textarea{width:100%; min-height:60px; box-sizing:border-box; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-family:inherit; font-size:14.5px; color:var(--ink); resize:vertical; background:#fbfcfe}
+  .commit textarea:focus{outline:none; border-color:var(--brand)}
+  .savebar{display:flex; justify-content:flex-end; margin-bottom:16px}
+  .savebtn{display:inline-flex; align-items:center; gap:8px; background:#2f6f8f; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(47,111,143,.25); font-family:inherit}
+  .savebtn:hover{background:#27607c}
+  @media print{ .savebar{display:none} body{background:#fff} .commit textarea{background:#fff} }
+  .foot{margin-top:30px; color:#9aa4b2; font-size:12.5px; text-align:center}
+  strong{color:var(--ink)} .reinforce strong{color:var(--green)} .grow strong{color:var(--amber)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="savebar"><button class="savebtn" onclick="window.print()">⤓ Salvar como PDF</button></div>
+
+  <header class="top">
+    <div class="tag">Feedback 360 · {{ANO}}</div>
+    <h1>Devolutiva — {{NOME}}</h1>
+    <p>Um resumo do que você apontou na sua autoavaliação cruzado com a percepção do time. As contribuições dos colegas foram consolidadas e mantidas anônimas.</p>
+  </header>
+
+  <div class="intro">{{INTRO — 2 a 3 linhas de leitura geral, positiva e específica}}</div>
+
+  <!-- TERMÔMETRO: substitua os números e as larguras das barras (largura = média/5*100%) -->
+  <h2 class="section">Termômetro · médias por tema</h2>
+  <div class="scores">
+    <div class="score"><div class="num">{{P}}<span class="den">/5</span></div><div class="nm">Postura</div><div class="bar"><span style="width:{{P%}}"></span></div></div>
+    <div class="score"><div class="num">{{T}}<span class="den">/5</span></div><div class="nm">Técnica</div><div class="bar"><span style="width:{{T%}}"></span></div></div>
+    <div class="score"><div class="num">{{PR}}<span class="den">/5</span></div><div class="nm">Protagonismo</div><div class="bar"><span style="width:{{PR%}}"></span></div></div>
+    <div class="score"><div class="num">{{A}}<span class="den">/5</span></div><div class="nm">Adapt./Comun.</div><div class="bar"><span style="width:{{A%}}"></span></div></div>
+    <div class="score geral"><div class="num">{{G}}<span class="den">/5</span></div><div class="nm">Geral</div><div class="bar"><span style="width:{{G%}}"></span></div></div>
+  </div>
+  <p class="scorenote">Médias das respostas de {{N}} colegas, convertendo a escala (Sempre = 5 … Nunca = 1). Leia como tendência, não como nota exata.</p>
+
+  <div class="reinforce">
+    <span class="pill">O que reforçar</span>
+    <h3>Forças reconhecidas pelo time</h3>
+    <ul>
+      <li><strong>{{Força 1.}}</strong> {{detalhe}}</li>
+      <li><strong>{{Força 2.}}</strong> {{detalhe}}</li>
+      <li><strong>{{Força 3.}}</strong> {{detalhe — destaque onde a pessoa se subestima}}</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Onde sua visão e a do time se encontram</h2>
+  <div class="card">
+    <h3>{{Competência}}</h3>
+    <div class="twocol">
+      <div class="box self"><div class="lbl">Sua visão</div>{{como a pessoa se vê}}</div>
+      <div class="box team"><div class="lbl">Como o time te vê</div>{{como o time vê — convergência/divergência}}</div>
+    </div>
+  </div>
+  <!-- repita o card acima para cada competência relevante -->
+
+  <h2 class="section">Pontos de desenvolvimento</h2>
+  <div class="grow">
+    <h3>O que vale trabalhar</h3>
+    <ul>
+      <li><strong>{{Ponto 1.}}</strong> {{detalhe construtivo}}</li>
+      <li><strong>{{Ponto 2.}}</strong> {{detalhe construtivo}}</li>
+    </ul>
+  </div>
+
+  <div class="takeaway">
+    <h3>Mensagem para levar</h3>
+    <p>{{Fecho que lidera pelas forças e aponta o próximo passo de crescimento.}}</p>
+  </div>
+
+  <h2 class="section">Meu compromisso</h2>
+  <div class="commit">
+    <h3>Meu compromisso com meu crescimento</h3>
+    <p class="sub">Este espaço é seu. A partir desta conversa, registre — com suas palavras — os compromissos que você assume com o próprio desenvolvimento.</p>
+    <div class="field"><label>O que eu quero desenvolver daqui pra frente</label><textarea></textarea></div>
+    <div class="field"><label>O que vou fazer na prática</label><textarea></textarea></div>
+    <div class="field"><label>Como e quando vou revisitar isso</label><textarea></textarea></div>
+  </div>
+
+  <div class="foot">Feedback 360 · {{ANO}} — documento de apoio à devolutiva · respostas dos pares consolidadas e anônimas</div>
+
+</div>
+</body>
+</html>
