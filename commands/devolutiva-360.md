@@ -1,5 +1,5 @@
 ---
-description: Gera uma devolutiva de Feedback 360 cruzando a autoavaliação da pessoa com as respostas dos pares (anônimo) e produz um HTML no formato aprovado. Invoca a skill devolutiva-360. Aceita os links/planilhas como argumento.
+description: Gera uma devolutiva de Feedback 360 cruzando a autoavaliação da pessoa com as respostas dos pares (anônimo) e produz um artefato (Artifact) no formato aprovado. Invoca a skill devolutiva-360. Aceita os links/planilhas como argumento.
 ---
 
 # Devolutiva de Feedback 360

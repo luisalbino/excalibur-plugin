@@ -2,7 +2,7 @@
 name: devolutiva-360
 description: >-
   Gera uma devolutiva de Feedback 360 cruzando a autoavaliação da pessoa com as
-  respostas dos pares, de forma anônima, e produz um arquivo HTML no formato
+  respostas dos pares, de forma anônima, e produz um artefato (Artifact) no formato
   aprovado (termômetro de médias por tema, forças, cruzamento "sua visão × como
   o time vê", pontos de desenvolvimento, mensagem final e espaço de compromisso).
   Use sempre que o usuário pedir para "montar uma devolutiva de feedback 360",
@@ -14,7 +14,7 @@ description: >-
 # Devolutiva de Feedback 360
 
 Método para transformar uma autoavaliação + as respostas de pares (formulário 360)
-em uma devolutiva clara, anônima e construtiva, entregue como arquivo HTML.
+em uma devolutiva clara, anônima e construtiva, entregue como artefato (Artifact).
 
 ## Insumos necessários
 
@@ -75,7 +75,7 @@ Destaque três coisas:
 - Comentários feitos de má-fé ou em tom de ofensa devem ser **descartados do
   cálculo e do texto** — confirme com quem conduz o processo antes.
 
-### 5. Montar o HTML
+### 5. Montar o artefato
 Use `assets/template_devolutiva.html` como base. Mantenha a ordem das seções:
 1. **Termômetro** — cards de médias por tema (antes de tudo).
 2. **O que reforçar** — forças reconhecidas pelo time; destaque onde a pessoa se subestima.
@@ -85,7 +85,25 @@ Use `assets/template_devolutiva.html` como base. Mantenha a ordem das seções:
 6. **Meu compromisso** — campos editáveis em 1ª pessoa, preenchidos pela própria pessoa.
 7. Botão **"Salvar como PDF"** no topo.
 
-Salve como `Devolutiva_<Nome>_<Ano>.html`.
+**Preencher os valores** (antes de publicar):
+- Substitua **todo** placeholder `{{...}}` do template por valor real — nome, ano,
+  intro, médias, larguras de barra, cards de competência, forças, pontos, mensagem.
+  Não pode sobrar nenhuma chave `{{...}}` no artefato final.
+- Barra de cada card do termômetro: `width = média ÷ 5 × 100%` (ex.: 4.8 → `96%`).
+  Os números vêm do passo 2 / `assets/calc_medias.py`. `{{N}}` = nº de respondentes.
+- Repita o card de competência (bloco `.card` com `.twocol`) uma vez por competência
+  relevante; remova os comentários HTML (`<!-- ... -->`) do template.
+
+**Publique como Artifact** (página hospedada), não como arquivo em disco:
+- Antes de escrever a página, carregue a skill `artifact-design`.
+- A ferramenta `Artifact` injeta o esqueleto `<!doctype>…<head></head><body>` na
+  publicação. Escreva o conteúdo **a partir do bloco `<style>…</style>`** e tudo que
+  está **dentro de `<body>`** (o `<div class="wrap">…`), **sem** as tags `<!DOCTYPE>`,
+  `<html>`, `<head>`, `<meta>` e `<body>` próprias. O `<style>` inline é mantido.
+- `<title>` no conteúdo: `Devolutiva 360 — <Nome>`. `favicon`: um emoji (ex.: 🌱).
+- O botão "Salvar como PDF" (`onclick="window.print()"`) e o CSS já são auto-contidos
+  (sem fontes/scripts/imagens externas) — compatível com a CSP do Artifact.
+- Escreva o conteúdo num `.html` no scratchpad e passe o path para `Artifact`.
 
 ### 6. Tom
 Construtivo e acolhedor. Lidere pelas forças. Trate os números como tendência.
@@ -93,4 +111,5 @@ O documento é mostrado à própria pessoa, então cada frase deve ajudar o dese
 nunca expor ou julgar.
 
 ## Resultado
-Um HTML autocontido, anônimo, pronto para ser aberto, preenchido na conversa e salvo em PDF.
+Um artefato (Artifact) hospedado, anônimo e auto-contido, pronto para ser aberto,
+preenchido na conversa e salvo em PDF.
