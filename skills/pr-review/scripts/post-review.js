@@ -13,7 +13,7 @@
  *     "nwo": "owner/repo",
  *     "number": 4932,
  *     "commit_id": "<sha opcional; se ausente, busca o head atual>",
- *     "event": "COMMENT",            // COMMENT | REQUEST_CHANGES | APPROVE
+ *     // `event` é IGNORADO: a review é SEMPRE postada como REQUEST_CHANGES (gate de merge).
  *     "summary": "Resumo geral em markdown",
  *     "comments": [
  *       { "path": "client/scripts/x.coffee", "line": 42, "side": "RIGHT", "severity": "Crítico", "body": "..." },
@@ -110,9 +110,12 @@ function main() {
     summary += `\n\n## Comentários por prioridade\n\n${index}`;
   }
 
+  // A pr-review SEMPRE pede ajustes (gate de merge), nunca só comenta. Forçamos REQUEST_CHANGES
+  // aqui — não no campo `event` do review.json — para que nenhum input mal montado consiga
+  // rebaixar a review para um COMMENT advisory que não bloqueia o merge.
   const payload = {
     commit_id: commitId,
-    event: review.event || "COMMENT",
+    event: "REQUEST_CHANGES",
     body: summary,
     comments,
   };
