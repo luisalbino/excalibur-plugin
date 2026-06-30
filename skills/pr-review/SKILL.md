@@ -51,15 +51,15 @@ então não dependem do PATH do shell.
 3. Leia o diff de cada PR (`diffPath` no manifest). Trabalhe a partir do diff; só abra arquivos
    completos do clone quando precisar validar um impacto ou entender um consumidor.
 
-### 1.5. Carregar lições aprendidas
+### 1.5. Carregar ensinamentos acumulados
 
-Antes do fan-out, carregue a base de conhecimento acumulada pela skill `pr-learn` — heurísticas gerais
-extraídas de comentários humanos de PRs passadas, organizadas nas mesmas 4 dimensões das lentes:
+Antes do fan-out, carregue a base de conhecimento acumulada pela skill `pr-learn` — ensinamentos gerais
+extraídos de comentários humanos de PRs passadas, organizados nas mesmas 4 dimensões das lentes:
 ```
 node "<root>/scripts/learnings-path.js"
 ```
 O stdout é o caminho de `pr-review-learnings.md`. **Leia o arquivo** (tool Read). Se não existir ou
-estiver vazio, siga sem lições — é opcional. Se existir, separe o conteúdo pelas 4 seções (`## Regressão
+estiver vazio, siga sem ensinamentos — é opcional. Se existir, separe o conteúdo pelas 4 seções (`## Regressão
 / impacto na master`, `## Impacto cliente / tenant`, `## Impacto no usuário`, `## Qualidade /
 arquitetura`) para repassar cada uma à lente correspondente no passo 2.2.
 
@@ -76,11 +76,11 @@ reais, no formato do protocolo (§1).
 
 **2.2. Fan-out paralelo.** Numa **única mensagem**, abra as 4 lentes via Agent tool (rodam em paralelo).
 Passe a cada uma: o **mapa de blocos**, o `diffPath`, o `repoDir` e as regras do `CLAUDE.md`. Se houver
-base de lições (passo 1.5), inclua também a **seção correspondente** como bloco "Conhecimento prévio
-(lições de reviews passadas)" — regressão recebe a seção Regressão, tenant a de tenant, etc. As lições
-são **heurística/checklist de risco, não achado confirmado**: a lente só reporta se o diff/código real
-confirmar; nunca gera achado só porque a regra existe. Cada lente lê o diff sozinha e retorna no formato
-do protocolo (§2).
+base de ensinamentos (passo 1.5), inclua também a **seção correspondente** como bloco "Conhecimento prévio
+(ensinamentos de reviews passadas)" — regressão recebe a seção Regressão, tenant a de tenant, etc. Os
+ensinamentos são **checklist de risco, não achado confirmado**: a lente só reporta se o diff/código real
+confirmar; nunca gera achado só porque o ensinamento existe. Cada lente lê o diff sozinha e retorna no
+formato do protocolo (§2).
 
 | Lente (`subagent_type`) | Dimensão coberta |
 |-------------------------|------------------|

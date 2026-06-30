@@ -1,10 +1,10 @@
 ---
-description: Aprende com os comentários humanos de uma PR já revisada e acumula heurísticas gerais na base que a pr-review usa depois. Invoca a skill pr-learn. Aceita um ou mais links de PR como argumento.
+description: Aprende com os comentários humanos de uma PR já revisada e acumula ensinamentos duradouros na base que a pr-review usa depois. Invoca a skill pr-learn. Aceita um ou mais links de PR como argumento.
 ---
 
 # PR Learn
 
-Invoque a skill `excalibur:pr-learn` para capturar e generalizar os comentários da(s) PR(s).
+Invoque a skill `excalibur:pr-learn` para capturar e destilar em ensinamentos os comentários da(s) PR(s).
 
 Links da(s) PR(s): $ARGUMENTS
 

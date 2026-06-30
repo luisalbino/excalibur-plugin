@@ -4,7 +4,7 @@
  *
  * Fonte de aprendizado da skill `pr-learn`: o que revisores humanos apontaram numa
  * PR já revisada. NÃO clona o repo nem baixa o diff completo — o `diff_hunk` de cada
- * comentário inline já traz o contexto de código necessário para generalizar a lição.
+ * comentário inline já traz o contexto de código necessário para destilar o ensinamento.
  *
  * Por PR, junta:
  *   - bodies de review (aprovações/changes-requested com texto)  → `gh pr view --json reviews`

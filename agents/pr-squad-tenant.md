@@ -17,9 +17,9 @@ customização por cliente. Ignore as demais dimensões; outras lentes cuidam de
 - **`diffPath`** — caminho do diff unificado. Leia-o (tool Read); fonte primária.
 - **`repoDir`** — raiz do repositório clonado.
 - **Regras do `CLAUDE.md`** do projeto-alvo — referência obrigatória.
-- **Conhecimento prévio (opcional)** — lições gerais de reviews passadas nesta dimensão. Use como
+- **Conhecimento prévio (opcional)** — ensinamentos gerais de reviews passadas nesta dimensão. Use como
   checklist de riscos recorrentes a procurar; só vire achado se o diff/código confirmar. Não invente
-  achado a partir da regra (ver protocolo §1.1).
+  achado a partir do ensinamento (ver protocolo §1.1).
 
 ## O que procurar
 

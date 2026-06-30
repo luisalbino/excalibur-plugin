@@ -3,7 +3,7 @@
  * learnings-path.js — fonte única do caminho da base de conhecimento de reviews.
  *
  * A base (`pr-review-learnings.md`) é o arquivo onde a skill `pr-learn` acumula
- * heurísticas gerais extraídas de comentários humanos de PRs, e que a skill
+ * ensinamentos duradouros extraídos de comentários humanos de PRs, e que a skill
  * `pr-review` carrega para injetar nas 4 lentes. Os dois lados resolvem o caminho
  * por aqui — assim ele nunca diverge.
  *
