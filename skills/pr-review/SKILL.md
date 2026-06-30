@@ -135,8 +135,12 @@ Ancore cada achado em `arquivo:linha` reais do diff. Nada de achados sem localiz
 
 Quando o usuário quiser publicar os comentários na PR, monte um `review.json` (veja o cabeçalho de
 `post-review.js`) com `nwo`, `number`, `summary` e a lista de `comments` (cada um com `path`, `line`,
-`side`, `body`). Cada `line` precisa pertencer ao diff. Rode primeiro em **dry-run** para conferir o
-payload, depois com `--post` para publicar (uma única review batchada):
+`side`, `severity` e `body`). Cada `line` precisa pertencer ao diff. **Inclua sempre `severity`**
+(`Baixo|Médio|Alto|Crítico`, igual à do achado) — o script ordena os comentários por prioridade
+(maior severidade primeiro), prefixa cada um com o badge `🔴 #1 · Crítico` e gera um índice
+"Comentários por prioridade" no resumo. O GitHub renderiza o inline na ordem do diff, então **é esse
+índice + o badge que entregam a leitura priorizada** — não a ordem do array. Rode primeiro em
+**dry-run** para conferir o payload, depois com `--post` para publicar (uma única review batchada):
 ```
 node "<root>/skills/pr-review/scripts/post-review.js" review.json          # dry-run
 node "<root>/skills/pr-review/scripts/post-review.js" review.json --post   # publica
